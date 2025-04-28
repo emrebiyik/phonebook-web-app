@@ -66,7 +66,7 @@ Resources:
       IpAddressType: ipv4 
       Scheme: internet-facing
       SecurityGroups:
-        - !GetAtt ALBSecGrp.GroupId
+        - !GetAtt ALBSecGroup.GroupId
       Subnets: !Ref Subnets
       Type: application
 
@@ -80,7 +80,7 @@ Resources:
           Name: !Ref myInstanceProfile
         KeyName: !Ref KeyName
         SecurityGroupIds:
-          - !GetAtt EC2SecGrp.GroupId
+          - !GetAtt EC2SecGroup.GroupId
         TagSpecifications: 
           - ResourceType: instance
             Tags:
@@ -103,7 +103,7 @@ Resources:
                 TOKEN=$(aws --region=us-east-1 ssm get-parameter --name /ondia/phonebook/token --with-decryption --query 'Parameter.Value' --output text)
                 git clone https://$TOKEN@github.com/emrebiyik/phonebook-web-app.git
                 python3 /home/ec2-user/phonebook-web-app/solution/phonebook-app.py
-              - MyDBURI: !GetAtt rDSInstance.Endpoint.Address
+              - MyDBURI: !GetAtt RDSInstance.Endpoint.Address
     
   targetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -149,7 +149,7 @@ Resources:
       DBInstanceIdentifier: emre-phonebook
       DBName: !Ref myDBname #'{{resolve:ssm:/ondia/phonebook/dbname:1}}'
       DBSecurityGroups: 
-        - !Ref rDSSecGroup
+        - !Ref RDSSecGroup
       DeleteAutomatedBackups: true
       DeletionProtection: false
       Engine: mysql
