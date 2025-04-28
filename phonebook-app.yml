@@ -47,7 +47,7 @@ Resources:
       MaxSize: 3 
       MinSize: 1  
       TargetGroupARNs:
-        - !Ref TG
+        - !Ref targetGroup
       VPCZoneIdentifier: !Ref Subnets # not array
 
   ALBListener:
